@@ -11,4 +11,12 @@ module Domainatrix
   def self.parse(url)
     Url.new(DOMAIN_PARSER.parse(url))
   end
+
+  def self.scan(text, &block)
+    @schemes ||= %w(http https)
+
+    urls = URI.extract(text, @schemes).map { |url| parse(url) }
+    urls.map!(&block) if block
+    urls
+  end
 end
