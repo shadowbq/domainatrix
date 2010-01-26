@@ -15,7 +15,9 @@ module Domainatrix
   def self.scan(text, &block)
     @schemes ||= %w(http https)
 
-    urls = URI.extract(text, @schemes).map { |url| parse(url) }
+    urls = URI.extract(text, @schemes).select do |url|
+      parse(url) rescue nil
+    end
     urls.map!(&block) if block
     urls
   end
