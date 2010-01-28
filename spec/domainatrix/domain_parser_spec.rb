@@ -36,11 +36,11 @@ describe "domain parser" do
     it "includes the scheme" do
       @domain_parser.parse("http://www.pauldix.net")[:scheme].should == "http"
     end
-    
+
     it "includes the full host" do
-      @domain_parser.parse("http://www.pauldix.net")[:host].should == "www.pauldix.net"      
+      @domain_parser.parse("http://www.pauldix.net")[:host].should == "www.pauldix.net"
     end
-    
+
     it "parses out the path" do
       @domain_parser.parse("http://pauldix.net/foo.html?asdf=foo")[:path].should == "/foo.html?asdf=foo"
       @domain_parser.parse("http://pauldix.net?asdf=foo")[:path].should == "?asdf=foo"
@@ -78,6 +78,26 @@ describe "domain parser" do
       combined[:domain].should == "pauldix"
       combined[:public_suffix].should == "*"
       combined[:path].should == "/*"
+    end
+
+    it "should parse a URL if it has a wildcard exception" do
+      @domain_parser.parse("http://metro.tokyo.jp")[:domain].should == "metro"
+    end
+
+    it "should throw an exception if the tld is not valid" do
+      lambda { @domain_parser.parse("http://pauldix.nett") }.should raise_error(Domainatrix::ParseError)
+    end
+
+    it "should throw an exception if the domain doesn't contain a valid host" do
+      lambda { @domain_parser.parse("http://co.jp") }.should raise_error(Domainatrix::ParseError)
+    end
+
+    it "should throw an exception if the domain doesn't have a valid scheme" do
+      lambda { @domain_parser.parse("pauldix.net") }.should raise_error(Domainatrix::ParseError)
+    end
+
+    it "should throw an exception if the domain contains an invalid character" do
+      lambda { @domain_parser.parse("http://pauldix,net") }.should raise_error(Domainatrix::ParseError)
     end
   end
 end
