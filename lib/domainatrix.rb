@@ -11,4 +11,12 @@ module Domainatrix
     @domain_parser ||= DomainParser.new("#{File.dirname(__FILE__)}/effective_tld_names.dat")
     Url.new(@domain_parser.parse(url))
   end
+
+  def self.scan(text, &block)
+    @schemes ||= %w(http https)
+
+    urls = URI.extract(text, @schemes).map { |url| parse(url) }
+    urls.map!(&block) if block
+    urls
+  end
 end
