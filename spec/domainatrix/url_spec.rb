@@ -38,4 +38,10 @@ describe "url" do
   it "canonicalizes the url without the path" do
     Domainatrix::Url.new(:subdomain => "foo", :domain => "pauldix", :public_suffix => "net").canonical(:include_path => false).should == "net.pauldix.foo"
   end
+
+  it "converts the url to a string" do
+    Domainatrix::Url.new(:scheme => "http", :subdomain => "www", :domain => "pauldix", :public_suffix => "net", :path => "/some/path").to_s.should == "http://www.pauldix.net/some/path"
+    Domainatrix::Url.new(:subdomain => "www", :domain => "pauldix", :public_suffix => "net", :path => "/some/path").to_s.should == "www.pauldix.net/some/path"
+    Domainatrix::Url.new(:domain => "pauldix", :public_suffix => "co.uk").to_s.should == "pauldix.co.uk"
+  end
 end

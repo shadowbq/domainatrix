@@ -28,7 +28,13 @@ module Domainatrix
     end
 
     def parse(url)
-      uri = Addressable::URI.parse(url)
+      uri = begin
+        Addressable::URI.parse(url)
+      rescue Addressable::URI::InvalidURIError
+        nil
+      end
+
+      raise ParseError, "URL isn't parsable by Addressable::URI" if not uri
       raise ParseError, "URL doesn't have valid scheme" unless uri.scheme =~ VALID_SCHEMA
 
       if uri.query
@@ -45,55 +51,68 @@ module Domainatrix
     end
 
     def split_domain(parts, tld_size)
-      # parts are host split on . reversed, eg com.pauldix.www
-      domain_parts = parts.reverse
-      if domain_parts.size - tld_size <= 0
-        raise ParseError, "Invalid TLD size found for #{domain_parts.join('.')}: #{tld_size}"
+      if parts.size == 1 and tld_size == 0
+        subdomain = ''
+        domain = '*'
+        tld = ''
+      else
+        # parts are host split on . reversed, eg com.pauldix.www
+        domain_parts = parts.reverse
+        if domain_parts.size - tld_size <= 0
+          raise ParseError, "Invalid TLD size found for #{domain_parts.join('.')}: #{tld_size}"
+        end
+
+        tld = domain_parts.slice!(-tld_size, tld_size).join('.')
+        domain = domain_parts.pop
+        subdomain = domain_parts.join('.')
       end
 
-      tld = domain_parts.slice!(-tld_size, tld_size).join('.')
-      domain = domain_parts.pop
-      subdomain = domain_parts.join('.')
-
-      [domain, subdomain, tld]
+      [subdomain, domain, tld]
     end
 
     def parse_domains_from_host(host)
       parts = host.split(".").reverse
-      raise ParseError, "Invalid URL" if parts.size < 2
 
-      tld_size = 1
-      main_tld = parts.first
-      if main_tld != '*'
-        if not current_suffixes = @public_suffixes[main_tld]
-          raise ParseError, "Invalid main TLD: #{main_tld}"
-        end
+      if host == '*'
+        tld_size = 0
+      else
+        main_tld = parts.first
 
-        parts.each_with_index do |part, i|
-          if current_suffixes.empty?
-            # no extra rules found (eg domain.net)
-            break
-          else
-            if current_suffixes.has_key?("!#{parts[i+1]}")
-              # exception tld domain found (eg metro.tokyo.jp)
-              break
-            elsif current_suffixes.has_key?(parts[i+1])
-              # valid extra domain level found (eg co.uk)
-              tld_size += 1
-              current_suffixes = current_suffixes[parts[i+1]]
-            elsif current_suffixes.has_key?('*')
-              # wildcard domain level (eg *.jp)
-              tld_size += 1
-              break
-            else
+        tld_size = 1
+        raise ParseError, "Invalid URL" if parts.size < 2
+
+        if main_tld != '*'
+          raise ParseError, "Invalid characters for TLD" unless main_tld =~ /^[a-z]{2,}/
+          if not current_suffixes = @public_suffixes[main_tld]
+            raise ParseError, "Invalid main TLD: #{main_tld}"
+          end
+
+          parts.each_with_index do |part, i|
+            if current_suffixes.empty?
               # no extra rules found (eg domain.net)
               break
+            else
+              if current_suffixes.has_key?("!#{parts[i+1]}")
+                # exception tld domain found (eg metro.tokyo.jp)
+                break
+              elsif current_suffixes.has_key?(parts[i+1])
+                # valid extra domain level found (eg co.uk)
+                tld_size += 1
+                current_suffixes = current_suffixes[parts[i+1]]
+              elsif current_suffixes.has_key?('*')
+                # wildcard domain level (eg *.jp)
+                tld_size += 1
+                break
+              else
+                # no extra rules found (eg domain.net)
+                break
+              end
             end
           end
         end
       end
 
-      domain, subdomain, tld = split_domain(parts, tld_size)
+      subdomain, domain, tld = split_domain(parts, tld_size)
       {:public_suffix => tld, :domain => domain, :subdomain => subdomain}
     end
   end

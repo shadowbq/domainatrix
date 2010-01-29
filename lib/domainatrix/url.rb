@@ -1,6 +1,6 @@
 module Domainatrix
   class Url
-    attr_reader :public_suffix, :domain, :subdomain, :path, :url, :scheme, :host
+    attr_accessor :public_suffix, :domain, :subdomain, :path, :url, :scheme, :host
 
     def initialize(attrs = {})
       @scheme = attrs[:scheme]
@@ -22,6 +22,16 @@ module Domainatrix
       url << @path if @path
 
       url
+    end
+
+    def to_s
+      scheme = (@scheme.nil?) ? '' : "#{@scheme}://"
+      parts = []
+      parts << @subdomain if @subdomain and !@subdomain.empty?
+      parts << @domain if @domain and !@domain.empty?
+      parts << @public_suffix if @public_suffix and !@public_suffix.empty?
+
+      "#{scheme}#{parts.join('.')}#{@path}"
     end
   end
 end
