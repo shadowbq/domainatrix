@@ -44,6 +44,18 @@ describe Domainatrix do
     it "returns an empty array when no urls are found" do
       Domainatrix.scan("Nope").should == []
     end
+
+    it "removes unlikely characters from the end of URLs" do
+      input = <<-TEXT
+      Check out http://tobtr.com/s/821921.
+      Oh, and also (http://www.google.com): Cool stuff!
+      http://fora.tv/v/c8637, is almost as good as http://example.com...
+      http://foo.com" <http://baz.com>
+      TEXT
+
+      urls = Domainatrix.scan(input).map {|u| u.url}
+      urls.should == %w(http://tobtr.com/s/821921 http://www.google.com http://fora.tv/v/c8637 http://example.com http://foo.com http://baz.com)
+    end
   end
 
   context 'localhost with a port' do
