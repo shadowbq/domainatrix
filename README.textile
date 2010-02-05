@@ -34,6 +34,11 @@ url.domain    # => "pauldix"
 url.subdomain # => "foo.bar"
 url.path      # => "/asdf.html?q=arg"
 url.canonical # => "uk.co.pauldix.bar.foo/asdf.html?q=arg"
+
+urls = Domainatrix.scan("wikipedia (http://en.wikipedia.org/wiki/Popular_culture): lol") do |match|
+         match.url # Given a block, works like 'map'
+       end
+urls # => ["http://en.wikipedia.org/wiki/Popular_culture"]
 </pre>
 
 h2. LICENSE
