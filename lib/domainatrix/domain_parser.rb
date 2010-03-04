@@ -34,8 +34,9 @@ module Domainatrix
         nil
       end
 
-      raise ParseError, "URL isn't parsable by Addressable::URI" if not uri
-      raise ParseError, "URL doesn't have valid scheme" unless uri.scheme =~ VALID_SCHEMA
+      raise ParseError, "URL is not parsable by Addressable::URI" if not uri
+      raise ParseError, "URL does not have a valid scheme" unless uri.scheme =~ VALID_SCHEMA
+      raise ParseError, "URL does not have a valid host" if uri.host.nil?
 
       if uri.query
         path = "#{uri.path}?#{uri.query}"

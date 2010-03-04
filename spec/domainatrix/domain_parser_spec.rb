@@ -99,5 +99,10 @@ describe "domain parser" do
     it "should throw an exception if the domain contains an invalid character" do
       lambda { @domain_parser.parse("http://pauldix,net") }.should raise_error(Domainatrix::ParseError)
     end
+
+    it "should thrown an exception if the url is malformed" do
+      lambda { @domain_parser.parse("http:/") }.should raise_error(Domainatrix::ParseError)
+    end
+
   end
 end
