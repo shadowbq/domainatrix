@@ -43,6 +43,7 @@ describe "domain parser" do
     end
 
     it "parses out the path" do
+      @domain_parser.parse("http://pauldix.net/foo.html?asdf=foo#bar")[:path].should == "/foo.html?asdf=foo#bar"
       @domain_parser.parse("http://pauldix.net/foo.html?asdf=foo")[:path].should == "/foo.html?asdf=foo"
       @domain_parser.parse("http://pauldix.net?asdf=foo")[:path].should == "?asdf=foo"
       @domain_parser.parse("http://pauldix.net")[:path].should == ""
@@ -114,5 +115,10 @@ describe "domain parser" do
     it "should throw an exception if the domain contains an invalid character" do
       lambda { @domain_parser.parse("http://pauldix,net") }.should raise_error(Domainatrix::ParseError)
     end
+    
+    it "should thrown an exception if the url is malformed" do
+      lambda { @domain_parser.parse("http:/") }.should raise_error(Domainatrix::ParseError)
+    end
+    
   end
 end

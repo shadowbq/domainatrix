@@ -36,6 +36,7 @@ module Domainatrix
 
     def parse(url)
       return {} unless url && url.strip != ''
+      
       url = "http://#{url}" unless url[/:\/\//]
       url = url.downcase
       uri = begin
@@ -44,17 +45,17 @@ module Domainatrix
         nil
       end
       
-      raise ParseError, "URL isn't parsable by Addressable::URI" if not uri
+      raise ParseError, "URL is not parsable by Addressable::URI" if not uri
       
       url = uri.normalize.to_s      
 
-      raise ParseError, "URL doesn't have valid scheme" unless uri.scheme =~ VALID_SCHEMA
+      raise ParseError, "URL does not have valid scheme" unless uri.scheme =~ VALID_SCHEMA
+      raise ParseError, "URL does not have a valid host" if uri.host.nil?
+      
+      path = uri.path
+      path << "?#{uri.query}" if uri.query
+      path << "##{uri.fragment}" if uri.fragment
 
-      if uri.query
-        path = "#{uri.path}?#{uri.query}"
-      else
-        path = uri.path
-      end
 
       if uri.host == 'localhost'
         uri_hash = { :public_suffix => '', :domain => 'localhost', :subdomain => '' }
