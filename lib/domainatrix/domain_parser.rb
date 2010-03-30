@@ -38,11 +38,10 @@ module Domainatrix
       raise ParseError, "URL does not have a valid scheme" unless uri.scheme =~ VALID_SCHEMA
       raise ParseError, "URL does not have a valid host" if uri.host.nil?
 
-      if uri.query
-        path = "#{uri.path}?#{uri.query}"
-      else
-        path = uri.path
-      end
+      path = uri.path
+      path << "?#{uri.query}" if uri.query
+      path << "##{uri.fragment}" if uri.fragment
+
       parse_domains_from_host(uri.host).merge({
         :scheme => uri.scheme,
         :host   => uri.host,

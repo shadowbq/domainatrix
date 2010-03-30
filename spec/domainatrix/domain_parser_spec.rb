@@ -42,6 +42,7 @@ describe "domain parser" do
     end
 
     it "parses out the path" do
+      @domain_parser.parse("http://pauldix.net/foo.html?asdf=foo#bar")[:path].should == "/foo.html?asdf=foo#bar"
       @domain_parser.parse("http://pauldix.net/foo.html?asdf=foo")[:path].should == "/foo.html?asdf=foo"
       @domain_parser.parse("http://pauldix.net?asdf=foo")[:path].should == "?asdf=foo"
       @domain_parser.parse("http://pauldix.net")[:path].should == ""
