@@ -75,5 +75,14 @@ describe "domain parser" do
       parsed[:domain].should == "localhost"
       parsed[:public_suffix].should == ""
     end
+
+    it "handles unicode urls" do
+      input = "http://✪df.ws/fil"
+      parsed = @domain_parser.parse(input)
+      parsed[:url].should == input
+      parsed[:host].should == "✪df.ws"
+      parsed[:path].should == "/fil"
+      parsed[:public_suffix].should == "ws"
+    end
   end
 end
