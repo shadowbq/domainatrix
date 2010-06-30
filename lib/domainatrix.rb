@@ -30,7 +30,10 @@ module Domainatrix
     end
 
     urls = candidate_urls.map do |url|
-      parse(url)
+      begin
+        parse(url)
+      rescue Addressable::URI::InvalidURIError
+      end
     end.compact
     urls.map!(&block) if block
     urls
