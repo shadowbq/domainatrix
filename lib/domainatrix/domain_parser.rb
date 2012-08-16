@@ -122,7 +122,7 @@ module Domainatrix
         subdomain, domain, tld = split_domain(parts, tld_size)
       end
 
-      {:public_suffix => tld, :domain => domain, :subdomain => subdomain}
+      {:public_suffix => tld, :domain => domain, :subdomain => subdomain, :ip_address => ip_address}
     end
   end
 end
