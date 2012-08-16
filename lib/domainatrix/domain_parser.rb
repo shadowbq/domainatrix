@@ -117,7 +117,7 @@ module Domainatrix
       end
 
       if ip_address
-        subdomain, domain, tld = nil, host, nil
+        subdomain, domain, tld = '', host, ''
       else
         subdomain, domain, tld = split_domain(parts, tld_size)
       end
