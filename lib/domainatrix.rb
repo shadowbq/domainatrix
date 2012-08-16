@@ -4,6 +4,11 @@ require 'addressable/uri'
 require 'domainatrix/domain_parser.rb'
 require 'domainatrix/url.rb'
 
+begin
+  require 'uri'
+rescue LoadError
+end
+
 module Domainatrix
   VERSION = "0.0.8"
 
