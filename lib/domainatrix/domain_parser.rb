@@ -104,7 +104,7 @@ module Domainatrix
       
       if host == '*'
         tld_size = 0
-      elsif !parts.map { |part| part.match(/\d+/) }.include?(nil)
+      elsif !parts.map { |part| part.match(/^\d{1,3}$/) }.include?(nil)
         # host is an ip address
         ip_address = true  
       else

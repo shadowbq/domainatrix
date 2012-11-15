@@ -141,5 +141,9 @@ describe "domain parser" do
       @domain_parser.parse("http://123.123.123.co.uk/foo/bar")[:ip_address].should == false
     end
 
+    it "should not parse an invalip ip address" do
+      lambda { @domain_parser.parse("http://12345") }.should raise_error(Domainatrix::ParseError)
+    end
+
   end
 end
