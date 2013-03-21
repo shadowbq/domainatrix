@@ -30,7 +30,7 @@ describe "domain parser" do
     end
 
     it "includes the original url" do
-      @domain_parser.parse("http://www.pauldix.net")[:url].should == "http://www.pauldix.net"
+      @domain_parser.parse("http://www.pauldix.net")[:url].should == "http://www.pauldix.net/"
     end
 
     it "includes the scheme" do

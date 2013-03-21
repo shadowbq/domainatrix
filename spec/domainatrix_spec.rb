@@ -22,6 +22,13 @@ describe Domainatrix do
       url = Domainatrix.scan(input).first
       url.canonical.should == "org.craigslist.losangeles/sfv/clt/1551463643.html"
     end
+    
+    it "handles shouting" do
+      input = "TONIGHT!!  @chelseavperetti @toddglass @dougbenson @realjeffreyross ME and Tig Notaro   http://WWW.OPCCEVENTS.ORG/"
+      url = Domainatrix.scan(input).first
+      url.should_not be_nil
+      url.url.should == "http://www.opccevents.org/"
+    end
 
     it "finds multiple urls in a string" do
       input = <<-TEXT
@@ -54,7 +61,7 @@ describe Domainatrix do
       TEXT
 
       urls = Domainatrix.scan(input).map {|u| u.url}
-      urls.should == %w(http://tobtr.com/s/821921 http://www.google.com http://fora.tv/v/c8637 http://example.com http://foo.com http://baz.com)
+      urls.should == %w(http://tobtr.com/s/821921 http://www.google.com/ http://fora.tv/v/c8637 http://example.com/ http://foo.com/ http://baz.com/)
     end
   end
 
@@ -62,7 +69,7 @@ describe Domainatrix do
     subject { Domainatrix.parse('localhost:3000') }
     its(:scheme) { should == 'http' }
     its(:host) { should == 'localhost' }
-    its(:url) { should == 'http://localhost:3000' }
+    its(:url) { should == 'http://localhost:3000/' }
     its(:public_suffix) { should == '' }
     its(:domain) { should == 'localhost' }
     its(:subdomain) { should == '' }
@@ -74,7 +81,7 @@ describe Domainatrix do
     subject { Domainatrix.parse('www.pauldix.net') }
     its(:scheme) { should == 'http' }
     its(:host) { should == 'www.pauldix.net' }
-    its(:url) { should == 'http://www.pauldix.net' }
+    its(:url) { should == 'http://www.pauldix.net/' }
     its(:public_suffix) { should == 'net' }
     its(:domain) { should == 'pauldix' }
     its(:subdomain) { should == 'www' }
