@@ -86,6 +86,17 @@ describe "domain parser" do
       parsed[:path].should == "/fil"
       parsed[:public_suffix].should == "ws"
     end
-
+    
+    it "should accept wildcards" do
+      @domain_parser.parse("http://*.pauldix.net")[:subdomain].should == "*"
+      @domain_parser.parse("http://pauldix.*")[:public_suffix].should == "*"
+      @domain_parser.parse("http://pauldix.net/*")[:path].should == "/*"
+    
+      combined = @domain_parser.parse("http://*.pauldix.*/*")
+      combined[:subdomain].should == "*"
+      combined[:domain].should == "pauldix"
+      combined[:public_suffix].should == "*"
+      combined[:path].should == "/*"
+    end
   end
 end
