@@ -37,8 +37,8 @@ module Domainatrix
         scheme = ''
       else
         scheme = "#{@scheme}://"
-      end  
-      
+      end
+
       parts = []
       parts << @subdomain if @subdomain and !@subdomain.empty?
       parts << @domain if @domain and !@domain.empty?

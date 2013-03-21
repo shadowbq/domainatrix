@@ -69,7 +69,7 @@ describe "domain parser" do
       @domain_parser.parse("http://foo.pauldix.net")[:subdomain].should == "foo"
       @domain_parser.parse("http://bar.foo.pauldix.co.uk")[:subdomain].should == "bar.foo"
     end
-    
+
     it "parses a link to localhost" do
       parsed = @domain_parser.parse("http://localhost")
       parsed[:host].should == "localhost"
@@ -87,7 +87,7 @@ describe "domain parser" do
       parsed[:path].should == "/fil"
       parsed[:public_suffix].should == "ws"
     end
-    
+
     it "should accept wildcards" do
       @domain_parser.parse("http://*.pauldix.net")[:subdomain].should == "*"
       @domain_parser.parse("http://pauldix.*")[:public_suffix].should == "*"

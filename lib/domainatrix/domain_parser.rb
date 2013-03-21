@@ -20,7 +20,7 @@ module Domainatrix
       else
         dat_file = File.open(file_name)
       end
-      
+
       dat_file.each_line do |line|
         line = line.strip
         unless (line =~ /^\/\//) || line.empty?
@@ -35,9 +35,8 @@ module Domainatrix
     end
 
     def parse(url)
-
       return {} unless url && url.strip != ''
-      
+
       url = "http://#{url}" unless url[/:\/\//]
       url = url.downcase
 
@@ -45,20 +44,16 @@ module Domainatrix
         Addressable::URI.parse(url)
       rescue Addressable::URI::InvalidURIError
         nil
-
       end
-      
-      raise ParseError, "URL is not parsable by Addressable::URI" if not uri
-      
-      url = uri.normalize.to_s      
 
+      raise ParseError, "URL is not parsable by Addressable::URI" if not uri
+      url = uri.normalize.to_s
       raise ParseError, "URL does not have valid scheme" unless uri.scheme =~ VALID_SCHEMA
       raise ParseError, "URL does not have a valid host" if uri.host.nil?
  
       path = uri.path
       path << "?#{uri.query}" if uri.query
       path << "##{uri.fragment}" if uri.fragment
-
 
       if uri.host == 'localhost'
         uri_hash = { :public_suffix => '', :domain => 'localhost', :subdomain => '' }
@@ -67,7 +62,6 @@ module Domainatrix
       end
 
       uri_hash.merge({
-
         :scheme => uri.scheme,
         :host   => uri.host,
         :path   => path,
@@ -96,26 +90,25 @@ module Domainatrix
     end
 
     def parse_domains_from_host(host)
-      
       return {} unless host
-      
+
       parts = host.split(".").reverse
       ip_address = false
-      
+
       if host == '*'
         tld_size = 0
       elsif !parts.map { |part| part.match(/^\d{1,3}$/) }.include?(nil)
         # host is an ip address
-        ip_address = true  
+        ip_address = true
       else
         main_tld = parts.first
         tld_size = 1
         raise ParseError, "Invalid URL" if parts.size < 2
-        
+
         if main_tld != '*'
-          
+
           raise ParseError, "Invalid characters for TLD" unless main_tld =~ /^[a-z]{2,}/
-          
+
           if not current_suffixes = @public_suffixes[main_tld]
             raise ParseError, "Invalid main TLD: #{main_tld}"
           end

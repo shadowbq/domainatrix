@@ -22,7 +22,7 @@ describe Domainatrix do
       url = Domainatrix.scan(input).first
       url.canonical.should == "org.craigslist.losangeles/sfv/clt/1551463643.html"
     end
-    
+
     it "handles shouting" do
       input = "TONIGHT!!  @chelseavperetti @toddglass @dougbenson @realjeffreyross ME and Tig Notaro   http://WWW.OPCCEVENTS.ORG/"
       url = Domainatrix.scan(input).first
