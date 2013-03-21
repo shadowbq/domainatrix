@@ -1,6 +1,6 @@
 module Domainatrix
   class Url
-    attr_reader :public_suffix, :domain, :subdomain, :path, :url, :scheme, :host
+    attr_accessor :public_suffix, :domain, :subdomain, :path, :url, :scheme, :host
 
     def initialize(attrs = {})
       @scheme = attrs[:scheme] || ''
@@ -28,6 +28,20 @@ module Domainatrix
       [@domain, @public_suffix].compact.reject{|s|s==''}.join('.')
     end
     alias domain_with_tld domain_with_public_suffix
+
+    def to_s
+      if @scheme.nil? || @scheme.empty?
+        scheme = ''
+      else
+        scheme = "#{@scheme}://"
+      end  
+      
+      parts = []
+      parts << @subdomain if @subdomain and !@subdomain.empty?
+      parts << @domain if @domain and !@domain.empty?
+      parts << @public_suffix if @public_suffix and !@public_suffix.empty?
+      "#{scheme}#{parts.join('.')}#{@path}"
+    end
 
   end
 end

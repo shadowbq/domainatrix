@@ -50,5 +50,11 @@ describe "url" do
     Domainatrix::Url.new(:domain => "foo", :public_suffix => "co.uk" ).domain_with_tld.should == "foo.co.uk"
     Domainatrix::Url.new(:subdomain => "baz", :domain => "bar", :public_suffix => "com").domain_with_tld.should == "bar.com"
   end
+  
+  it "converts the url to a string" do
+    Domainatrix::Url.new(:scheme => "http", :subdomain => "www", :domain => "pauldix", :public_suffix => "net", :path => "/some/path").to_s.should == "http://www.pauldix.net/some/path"
+    Domainatrix::Url.new(:subdomain => "www", :domain => "pauldix", :public_suffix => "net", :path => "/some/path").to_s.should == "www.pauldix.net/some/path"
+    Domainatrix::Url.new(:domain => "pauldix", :public_suffix => "co.uk").to_s.should == "pauldix.co.uk"
+  end
 
 end
