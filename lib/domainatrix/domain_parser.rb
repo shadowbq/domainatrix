@@ -107,7 +107,8 @@ module Domainatrix
 
         if main_tld != '*'
 
-          raise ParseError, "Invalid characters for TLD" unless main_tld =~ /^[a-z]{2,}/
+          #PunyCode, and New Anydomain TLD invalidate this, just use the DAT file
+          #raise ParseError, "Invalid characters for TLD" unless main_tld =~ /^[a-z]{2,}/
 
           if not current_suffixes = @public_suffixes[main_tld]
             raise ParseError, "Invalid main TLD: #{main_tld}"

@@ -78,16 +78,6 @@ describe "domain parser" do
       parsed[:public_suffix].should == ""
     end
 
-    xit "handles unicode urls" do
-      
-      input = "http://✪df.ws/fil"
-      parsed = @domain_parser.parse(input)
-      parsed[:url].should == input
-      parsed[:host].should == "✪df.ws"
-      parsed[:path].should == "/fil"
-      parsed[:public_suffix].should == "ws"
-    end
-
     it "should accept wildcards" do
       @domain_parser.parse("http://*.pauldix.net")[:subdomain].should == "*"
       @domain_parser.parse("http://pauldix.*")[:public_suffix].should == "*"
@@ -146,4 +136,25 @@ describe "domain parser" do
     end
 
   end
+  
+  describe "handling utf-8" do
+    
+    it "handles public suffixes with utf-8" do
+      @domain_parser.parse("http://pauldix.السعوديه")[:public_suffix].should == "السعوديه"
+      @domain_parser.parse("http://pauldix.臺灣")[:public_suffix].should == "臺灣"
+      @domain_parser.parse("http://pauldix.السعوديه")[:domain].should == "pauldix"
+      @domain_parser.parse("http://pauldix.臺灣")[:domain].should == "pauldix"
+    end
+    
+    it "handles unicode urls as puny code" do
+       input = "http://✪df.ws/fil"
+       parsed = @domain_parser.parse(input)
+       parsed[:url].should == "http://xn--df-oiy.ws/fil"
+       parsed[:host].should == "✪df.ws"
+       parsed[:path].should == "/fil"
+       parsed[:public_suffix].should == "ws"
+    end
+    
+  end
+  
 end
