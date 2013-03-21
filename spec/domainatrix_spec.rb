@@ -30,6 +30,7 @@ describe Domainatrix do
       url.url.should == "http://www.opccevents.org/"
     end
 
+
     it "finds multiple urls in a string" do
       input = <<-TEXT
       http://google.com
@@ -63,6 +64,7 @@ describe Domainatrix do
       urls = Domainatrix.scan(input).map {|u| u.url}
       urls.should == %w(http://tobtr.com/s/821921 http://www.google.com/ http://fora.tv/v/c8637 http://example.com/ http://foo.com/ http://baz.com/)
     end
+
   end
 
   context 'localhost with a port' do

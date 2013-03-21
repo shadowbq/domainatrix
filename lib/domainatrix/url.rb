@@ -1,6 +1,7 @@
 module Domainatrix
   class Url
-    attr_accessor :public_suffix, :domain, :subdomain, :path, :url, :scheme, :host
+
+    attr_accessor :public_suffix, :domain, :subdomain, :path, :url, :scheme, :host, :ip_address
 
     def initialize(attrs = {})
       @scheme = attrs[:scheme] || ''
@@ -10,6 +11,8 @@ module Domainatrix
       @domain = attrs[:domain] || ''
       @subdomain = attrs[:subdomain] || ''
       @path = attrs[:path] || ''
+      @ip_address = attrs[:ip_address]
+
     end
 
     def canonical(options = {})
@@ -40,6 +43,7 @@ module Domainatrix
       parts << @subdomain if @subdomain and !@subdomain.empty?
       parts << @domain if @domain and !@domain.empty?
       parts << @public_suffix if @public_suffix and !@public_suffix.empty?
+
       "#{scheme}#{parts.join('.')}#{@path}"
     end
 

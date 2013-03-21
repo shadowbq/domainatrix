@@ -5,9 +5,16 @@ require 'domainatrix/domain_parser'
 require 'domainatrix/url'
 require 'uri'
 
+begin
+  require 'uri'
+rescue LoadError
+end
+
 module Domainatrix
+
   VERSION = "0.0.11"
   DOMAIN_PARSER = DomainParser.new("#{File.dirname(__FILE__)}/effective_tld_names.dat")
+
 
   def self.parse(url)
     Url.new(DOMAIN_PARSER.parse(url))
@@ -35,6 +42,7 @@ module Domainatrix
       rescue Addressable::URI::InvalidURIError
       end
     end.compact
+
     urls.map!(&block) if block
     urls
   end

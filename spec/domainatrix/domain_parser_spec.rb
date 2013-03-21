@@ -92,7 +92,7 @@ describe "domain parser" do
       @domain_parser.parse("http://*.pauldix.net")[:subdomain].should == "*"
       @domain_parser.parse("http://pauldix.*")[:public_suffix].should == "*"
       @domain_parser.parse("http://pauldix.net/*")[:path].should == "/*"
-    
+
       combined = @domain_parser.parse("http://*.pauldix.*/*")
       combined[:subdomain].should == "*"
       combined[:domain].should == "pauldix"
@@ -119,6 +119,27 @@ describe "domain parser" do
     it "should thrown an exception if the url is malformed" do
       lambda { @domain_parser.parse("http:/") }.should raise_error(Domainatrix::ParseError)
     end
-    
+
+    it "should throw an exception if the domain contains an invalid character" do
+      lambda { @domain_parser.parse("http://pauldix,net") }.should raise_error(Domainatrix::ParseError)
+    end
+
+    it "should thrown an exception if the url is malformed" do
+      lambda { @domain_parser.parse("http:/") }.should raise_error(Domainatrix::ParseError)
+    end
+
+    it "parses an ip address" do
+      @domain_parser.parse("http://123.123.123.123/foo/bar")[:domain].should == "123.123.123.123"
+      @domain_parser.parse("http://123.123.123.123/foo/bar")[:path].should == "/foo/bar"
+      @domain_parser.parse("http://123.123.123.123/foo/bar")[:ip_address].should == true
+    end
+
+    it "parses a host with numeric domain" do
+      @domain_parser.parse("http://123.123.123.co.uk/foo/bar")[:subdomain].should == "123.123"
+      @domain_parser.parse("http://123.123.123.co.uk/foo/bar")[:domain].should == "123"
+      @domain_parser.parse("http://123.123.123.co.uk/foo/bar")[:public_suffix].should == "co.uk"
+      @domain_parser.parse("http://123.123.123.co.uk/foo/bar")[:ip_address].should == false
+    end
+
   end
 end

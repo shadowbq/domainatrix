@@ -21,6 +21,10 @@ describe "url" do
     Domainatrix::Url.new(:path => "/asdf.html").path.should == "/asdf.html"
   end
 
+  it "reports if it is an ip address" do
+    Domainatrix::Url.new(:ip_address => true).ip_address.should == true
+  end
+
   it "canonicalizes the url" do
     Domainatrix::Url.new(:domain => "pauldix", :public_suffix => "net").canonical.should == "net.pauldix"
     Domainatrix::Url.new(:subdomain => "foo", :domain => "pauldix", :public_suffix => "net").canonical.should == "net.pauldix.foo"

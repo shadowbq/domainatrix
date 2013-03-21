@@ -35,14 +35,17 @@ module Domainatrix
     end
 
     def parse(url)
+
       return {} unless url && url.strip != ''
       
       url = "http://#{url}" unless url[/:\/\//]
       url = url.downcase
+
       uri = begin
         Addressable::URI.parse(url)
       rescue Addressable::URI::InvalidURIError
         nil
+
       end
       
       raise ParseError, "URL is not parsable by Addressable::URI" if not uri
@@ -51,7 +54,7 @@ module Domainatrix
 
       raise ParseError, "URL does not have valid scheme" unless uri.scheme =~ VALID_SCHEMA
       raise ParseError, "URL does not have a valid host" if uri.host.nil?
-      
+ 
       path = uri.path
       path << "?#{uri.query}" if uri.query
       path << "##{uri.fragment}" if uri.fragment
@@ -64,6 +67,7 @@ module Domainatrix
       end
 
       uri_hash.merge({
+
         :scheme => uri.scheme,
         :host   => uri.host,
         :path   => path,
@@ -88,8 +92,7 @@ module Domainatrix
         subdomain = domain_parts.join('.')
       end
 
-      return [subdomain, domain, tld]
-    
+      [subdomain, domain, tld]
     end
 
     def parse_domains_from_host(host)
@@ -97,9 +100,13 @@ module Domainatrix
       return {} unless host
       
       parts = host.split(".").reverse
-
+      ip_address = false
+      
       if host == '*'
         tld_size = 0
+      elsif !parts.map { |part| part.match(/\d+/) }.include?(nil)
+        # host is an ip address
+        ip_address = true  
       else
         main_tld = parts.first
         tld_size = 1
@@ -138,10 +145,15 @@ module Domainatrix
         end# if main_tld
       end # if host 
 
-      subdomain, domain, tld = split_domain(parts, tld_size)
-      
-      {:public_suffix => tld, :domain => domain, :subdomain => subdomain}
+      if ip_address
+        subdomain, domain, tld = '', host, ''
+      else
+        subdomain, domain, tld = split_domain(parts, tld_size)
+      end
+
+      {:public_suffix => tld, :domain => domain, :subdomain => subdomain, :ip_address => ip_address}
     end # def
     
   end #class
 end# module
+
