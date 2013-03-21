@@ -5,9 +5,9 @@ Gem::Specification.new do |s|
   s.version = "0.0.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Paul Dix", "Brian John"]
-  s.date = %q{2012-09-22}
-  s.email = ["paul@pauldix.net", "brian@brianjohn.com"]
+  s.authors = ["Paul Dix", "Brian John", "Shadowbq", "Menno van der Sman", "Wouter Broekhof", "Wilson"]
+  s.date = %q{2013-03-21}
+  s.email = ["shadowbq@gmail.com"]
   s.files = [
     "lib/domainatrix.rb",
     "lib/effective_tld_names.dat",
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
     "spec/domainatrix/domain_parser_spec.rb",
     "spec/domainatrix/url_spec.rb"]
   s.has_rdoc = true
-  s.homepage = %q{http://github.com/pauldix/domainatrix}
+  s.homepage = %q{http://github.com/shadowbq/domainatrix}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{A cruel mistress that uses the public suffix domain list to dominate URLs by canonicalizing, finding the public suffix, and breaking them into their domain parts.}

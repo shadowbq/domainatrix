@@ -6,7 +6,7 @@ require 'domainatrix/url'
 require 'uri'
 
 module Domainatrix
-  VERSION = "0.0.9"
+  VERSION = "0.0.11"
   DOMAIN_PARSER = DomainParser.new("#{File.dirname(__FILE__)}/effective_tld_names.dat")
 
   def self.parse(url)
