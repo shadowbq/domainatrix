@@ -10,4 +10,6 @@ RSpec::Core::RakeTask.new(:rcov) do |spec|
  spec.rcov = true
 end
 
+task :test => :spec
+
 task :default => :spec
