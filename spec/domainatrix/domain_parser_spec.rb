@@ -110,14 +110,6 @@ describe "domain parser" do
       lambda { @domain_parser.parse("http:/") }.should raise_error(Domainatrix::ParseError)
     end
 
-    it "should throw an exception if the domain contains an invalid character" do
-      lambda { @domain_parser.parse("http://pauldix,net") }.should raise_error(Domainatrix::ParseError)
-    end
-
-    it "should thrown an exception if the url is malformed" do
-      lambda { @domain_parser.parse("http:/") }.should raise_error(Domainatrix::ParseError)
-    end
-
     it "parses an ip address" do
       @domain_parser.parse("http://123.123.123.123/foo/bar")[:domain].should == "123.123.123.123"
       @domain_parser.parse("http://123.123.123.123/foo/bar")[:path].should == "/foo/bar"
@@ -131,8 +123,13 @@ describe "domain parser" do
       @domain_parser.parse("http://123.123.123.co.uk/foo/bar")[:ip_address].should == false
     end
 
-    it "should not parse an invalip ip address" do
+    it "should not parse an invalid ip address" do
       lambda { @domain_parser.parse("http://12345") }.should raise_error(Domainatrix::ParseError)
+    end
+    
+    it "defaults to http if no scheme is applied" do
+      @domain_parser.parse("www.pauldix.net")[:host].should == "www.pauldix.net"
+      @domain_parser.parse("www.pauldix.net")[:scheme].should == "http"
     end
 
   end
