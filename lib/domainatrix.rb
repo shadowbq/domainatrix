@@ -1,8 +1,9 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__)) unless $LOAD_PATH.include?(File.dirname(__FILE__))
 
 require 'addressable/uri'
-require 'domainatrix/domain_parser.rb'
-require 'domainatrix/url.rb'
+require 'domainatrix/domain_parser'
+require 'domainatrix/url'
+require 'uri'
 
 module Domainatrix
   VERSION = "0.0.9"
@@ -17,7 +18,7 @@ module Domainatrix
     all_trailing_clutter = /[.,:);]+$/
     clutter_without_parens = /[.,:);]+$/
 
-    candidate_urls = URI.extract(text, @schemes)
+    candidate_urls = ::URI.extract(text, @schemes)
     candidate_urls.map! do |url|
       # If the URL has an open paren, allow closing parens.
       if url.include?("(")
