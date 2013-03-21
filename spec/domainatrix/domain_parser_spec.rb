@@ -67,5 +67,13 @@ describe "domain parser" do
       @domain_parser.parse("http://foo.pauldix.net")[:subdomain].should == "foo"
       @domain_parser.parse("http://bar.foo.pauldix.co.uk")[:subdomain].should == "bar.foo"
     end
+    
+    it "parses a link to localhost" do
+      parsed = @domain_parser.parse("http://localhost")
+      parsed[:host].should == "localhost"
+      parsed[:url].should == "http://localhost/"
+      parsed[:domain].should == "localhost"
+      parsed[:public_suffix].should == ""
+    end
   end
 end

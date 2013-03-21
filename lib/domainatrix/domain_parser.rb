@@ -60,7 +60,7 @@ module Domainatrix
       parts = host.split(".").reverse
       public_suffix = []
       domain = ""
-      subdomains = []
+      subdomains = nil
       sub_hash = @public_suffixes
 
       parts.each_with_index do |part, i|
@@ -72,8 +72,12 @@ module Domainatrix
           subdomains = parts.slice(i+3, parts.size) || []
           break
         elsif sub_parts.nil? || sub_parts.empty? || !sub_parts.has_key?(parts[i+1])
-          public_suffix << part
           domain = parts[i+1]
+          if domain
+            public_suffix << part
+          else # http://localhost, or similar private/non-tld URL
+            domain = part
+          end
           subdomains = parts.slice(i+2, parts.size) || []
           break
         else
