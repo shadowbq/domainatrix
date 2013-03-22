@@ -12,9 +12,20 @@ This simple library can parse a URL into its canonical form. It uses the list of
 
 h2. Installation
 
+Install Default domainatrix
+
 <pre>
-  gem install domainatrix --source http://gemcutter.org
+  gem install shadowbq-domainatrix
 </pre>
+
+Using Github Custom version in a GemFile
+
+Installing a gem directly from a git repository is a feature of Bundler, not a feature of RubyGems. Gems installed this way will not show up when you run gem list.
+
+<pre>
+  gem 'domainatrix', :git => 'git://github.com/shadowbq/domainatrix.git'
+</pre>
+
 
 h2. Use
 
@@ -23,7 +34,8 @@ require 'rubygems'
 require 'domainatrix'
 
 url = Domainatrix.parse("http://www.pauldix.net")
-url.url       # => "http://www.pauldix.net" (the original url)
+url.url       # => "http://www.pauldix.net/" (the original url)
+url.host      # => "www.pauldix.net"
 url.public_suffix       # => "net"
 url.domain    # => "pauldix"
 url.canonical # => "net.pauldix"
@@ -34,6 +46,7 @@ url.domain    # => "pauldix"
 url.subdomain # => "foo.bar"
 url.path      # => "/asdf.html?q=arg"
 url.canonical # => "uk.co.pauldix.bar.foo/asdf.html?q=arg"
+url.scheme    #=> "http"
 
 urls = Domainatrix.scan("wikipedia (http://en.wikipedia.org/wiki/Popular_culture): lol") do |match|
          match.url # Given a block, works like 'map'
