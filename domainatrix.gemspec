@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.summary = %q{A cruel mistress that uses the public suffix domain list to dominate URLs by canonicalizing, finding the public suffix, and breaking them into their domain parts.}
   s.add_dependency("addressable")
   s.add_development_dependency("rspec")
+  s.add_development_dependency("rake")
   s.add_development_dependency "bump", "~> 0.3"
 
   if s.respond_to? :specification_version then
