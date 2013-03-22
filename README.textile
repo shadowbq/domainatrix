@@ -37,6 +37,7 @@ h2. Use
 require 'rubygems'
 require 'domainatrix'
 
+# Common Usage
 url = Domainatrix.parse("http://www.pauldix.net")
 url.url       # => "http://www.pauldix.net/" (the original url)
 url.host      # => "www.pauldix.net"
@@ -44,6 +45,7 @@ url.public_suffix       # => "net"
 url.domain    # => "pauldix"
 url.canonical # => "net.pauldix"
 
+# Looking at scheme and paths
 url = Domainatrix.parse("http://foo.bar.pauldix.co.uk/asdf.html?q=arg")
 url.public_suffix       # => "co.uk"
 url.domain    # => "pauldix"
@@ -52,6 +54,16 @@ url.path      # => "/asdf.html?q=arg"
 url.canonical # => "uk.co.pauldix.bar.foo/asdf.html?q=arg"
 url.scheme    #=> "http"
 
+# ICANN section only suffix search using DynDNS'
+url = Domainatrix.icann_parse('www.foo.dyndns.org') 
+url.host #=> 'www.foo.dyndns.org' }
+url.url #=> 'http://www.foo.dyndns.org/' }
+url.public_suffix #=>'org' }
+url.domain #=>'dyndns' }
+url.subdomain #=> 'www.foo' }
+url.domain_with_tld  #=> 'dyndns.org' }
+
+# Scanning text line
 urls = Domainatrix.scan("wikipedia (http://en.wikipedia.org/wiki/Popular_culture): lol") do |match|
          match.url # Given a block, works like 'map'
        end
