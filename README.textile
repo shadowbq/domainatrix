@@ -1,6 +1,6 @@
 h1. Domainatrix
 
-!https://badge.fury.io/rb/shadowbq-domainatrix.png!:http://badge.fury.io/rb/shadowbq-domainatrix "!https://codeclimate.com/github/shadowbq/domainatrix.png!":https://codeclimate.com/github/shadowbq/domainatrix "!https://secure.travis-ci.org/shadowbq/domainatrix.png?branch=master":http://travis-ci.org/shadowbq/domainatrix
+!https://badge.fury.io/rb/shadowbq-domainatrix.png!:http://badge.fury.io/rb/shadowbq-domainatrix "!https://codeclimate.com/github/shadowbq/domainatrix.png!":https://codeclimate.com/github/shadowbq/domainatrix "!https://secure.travis-ci.org/shadowbq/domainatrix.png?branch=master!":http://travis-ci.org/shadowbq/domainatrix
 
 PaulDix's Original Repo
 
