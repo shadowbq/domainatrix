@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    domainatrix (0.0.11)
+    shadowbq-domainatrix (0.0.12)
       addressable
 
 GEM
@@ -9,6 +9,7 @@ GEM
   specs:
     addressable (2.3.3)
     archive-tar-minitar (0.5.2)
+    bump (0.3.9)
     columnize (0.3.4)
     diff-lcs (1.1.3)
     linecache (0.46)
@@ -44,7 +45,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  domainatrix!
+  bump (~> 0.3)
   rspec
   ruby-debug
   ruby-debug19
+  shadowbq-domainatrix!
