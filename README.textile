@@ -1,5 +1,9 @@
 h1. Domainatrix
 
+!https://badge.fury.io/rb/shadowbq-domainatrix.png!:http://badge.fury.io/rb/shadowbq-domainatrix
+
+PaulDix's Original Repo
+
 "http://github.com/pauldix/domainatrix":http://github.com/pauldix/domainatrix
 
 h2. Summary
