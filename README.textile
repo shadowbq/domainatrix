@@ -54,6 +54,12 @@ urls = Domainatrix.scan("wikipedia (http://en.wikipedia.org/wiki/Popular_culture
 urls # => ["http://en.wikipedia.org/wiki/Popular_culture"]
 </pre>
 
+h2. ALTERNATIVES
+
+publicsuffix-ruby gem is well supported.
+
+"https://github.com/weppos/publicsuffix-ruby":https://github.com/weppos/publicsuffix-ruby
+
 h2. LICENSE
 
 (The MIT License)
