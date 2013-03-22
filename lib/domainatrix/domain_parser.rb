@@ -5,11 +5,17 @@ module Domainatrix
   class DomainParser
     include Addressable
 
-    attr_reader :public_suffixes
+    attr_reader :public_suffixes, :approved_sections, :found_sections
     VALID_SCHEMA = /^http[s]{0,1}$/
-
-    def initialize(file_name)
+    
+    def self.parse(url)
+      self.new("#{File.dirname(__FILE__)}/../effective_tld_names.dat").parse(url)
+    end
+    
+    def initialize(file_name, approved_sections = (Array.new << "*"))
       @public_suffixes = {}
+      @found_sections =[]
+      @approved_sections = approved_sections
       read_dat_file(file_name)
     end
 
@@ -20,17 +26,27 @@ module Domainatrix
       else
         dat_file = File.open(file_name)
       end
-
+      section = ""
+      
       dat_file.each_line do |line|
         line = line.strip
-        unless (line =~ /^\/\//) || line.empty?
-          parts = line.split(".").reverse
+         #// ===BEGIN ICANN DOMAINS===
+        if line =~ /^\/\/ ===BEGIN/
+          section = /^\/\/ ===BEGIN(.*)===/.match(line)[1].strip
+          @found_sections << section
+        end 
+        
+        if @approved_sections.include?(section) or @approved_sections.include?("*")
+          unless (line =~ /^\/\//) || line.empty?
+            parts = line.split(".").reverse
 
-          sub_hash = @public_suffixes
-          parts.each do |part|
-            sub_hash = (sub_hash[part] ||= {})
+            sub_hash = @public_suffixes
+            parts.each do |part|
+              sub_hash = (sub_hash[part] ||= {})
+            end
           end
         end
+        
       end
     end
 

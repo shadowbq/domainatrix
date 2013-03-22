@@ -102,5 +102,29 @@ describe Domainatrix do
     its(:path) { should == '' }
     its(:domain_with_tld) { should == '' }
   end
+  
+  context 'without ICANN only suffix using DynDNS' do
+    subject { Domainatrix.custom_parse('www.foo.dyndns.org') }
+    its(:scheme) { should == 'http' }
+    its(:host) { should == 'www.foo.dyndns.org' }
+    its(:url) { should == 'http://www.foo.dyndns.org/' }
+    its(:public_suffix) { should == 'org' }
+    its(:domain) { should == 'dyndns' }
+    its(:subdomain) { should == 'www.foo' }
+    its(:path) { should == '' }
+    its(:domain_with_tld) { should == 'dyndns.org' }
+  end
+  
+  context 'without ICANN only suffix using DynDNS' do
+    subject { Domainatrix.icann_parse('www.foo.dyndns.org') }
+    its(:scheme) { should == 'http' }
+    its(:host) { should == 'www.foo.dyndns.org' }
+    its(:url) { should == 'http://www.foo.dyndns.org/' }
+    its(:public_suffix) { should == 'org' }
+    its(:domain) { should == 'dyndns' }
+    its(:subdomain) { should == 'www.foo' }
+    its(:path) { should == '' }
+    its(:domain_with_tld) { should == 'dyndns.org' }
+  end
 
 end

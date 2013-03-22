@@ -11,11 +11,20 @@ rescue LoadError
 end
 
 module Domainatrix
-
-  VERSION = "0.0.11"
+  
+  #Keep Constant for backwards compat
   DOMAIN_PARSER = DomainParser.new("#{File.dirname(__FILE__)}/effective_tld_names.dat")
-
+  
+  def self.icann_parse(url, dat = "#{File.dirname(__FILE__)}/effective_tld_names.dat", sections = ["ICANN DOMAINS"])
+    Url.new(DomainParser.new(dat, sections).parse(url))
+  end
+  
+  def self.custom_parse(url, dat = "#{File.dirname(__FILE__)}/effective_tld_names.dat", sections = ["ICANN DOMAINS"])
+    Url.new(DomainParser.new(dat, sections).parse(url))
+  end
+  
   def self.parse(url)
+    #Url.new(DomainParser.parse(url)) #<-- Still slow implementation at this point
     Url.new(DOMAIN_PARSER.parse(url))
   end
 
@@ -45,4 +54,5 @@ module Domainatrix
     urls.map!(&block) if block
     urls
   end
+
 end

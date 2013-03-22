@@ -1,11 +1,11 @@
 PATH
   remote: .
   specs:
-    shadowbq-domainatrix (0.0.12)
+    shadowbq-domainatrix (0.0.13)
       addressable
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     addressable (2.3.3)
     archive-tar-minitar (0.5.2)
@@ -16,6 +16,7 @@ GEM
       rbx-require-relative (> 0.0.4)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
+    rake (10.0.3)
     rbx-require-relative (0.0.5)
     rspec (2.7.0)
       rspec-core (~> 2.7.0)
@@ -46,6 +47,7 @@ PLATFORMS
 
 DEPENDENCIES
   bump (~> 0.3)
+  rake
   rspec
   ruby-debug
   ruby-debug19

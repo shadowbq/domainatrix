@@ -1,18 +1,19 @@
 # -*- encoding: utf-8 -*-
+$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
+name = "shadowbq-domainatrix"
+require "domainatrix/version"
 
-Gem::Specification.new do |s|
-  s.name = %q{shadowbq-domainatrix}
-  s.version = "0.0.12"
-
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+Gem::Specification.new name, Domainatrix::VERSION do |s|
   s.authors = ["Paul Dix", "Brian John", "Shadowbq", "Menno van der Sman", "Wouter Broekhof", "Wilson"]
-  s.date = %q{2013-03-21}
+  s.date    = %q{2013-03-21}
+  s.license = 'MIT'
   s.email = ["shadowbq@gmail.com"]
   s.files = [
     "lib/domainatrix.rb",
     "lib/effective_tld_names.dat",
     "lib/domainatrix/domain_parser.rb",
     "lib/domainatrix/url.rb",
+    "lib/domainatrix/version.rb",
     "CHANGELOG.md",
     "README.textile",
     "spec/spec.opts",
@@ -20,23 +21,14 @@ Gem::Specification.new do |s|
     "spec/domainatrix_spec.rb",
     "spec/domainatrix/domain_parser_spec.rb",
     "spec/domainatrix/url_spec.rb"]
-  s.has_rdoc = true
   s.homepage = %q{http://github.com/shadowbq/domainatrix}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.required_rubygems_version = ">= 1.8.1"
   s.summary = %q{A cruel mistress that uses the public suffix domain list to dominate URLs by canonicalizing, finding the public suffix, and breaking them into their domain parts.}
+  
   s.add_dependency("addressable")
   s.add_development_dependency("rspec")
   s.add_development_dependency("rake")
   s.add_development_dependency "bump", "~> 0.3"
 
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 2
-
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-    else
-    end
-  else
-  end
 end
