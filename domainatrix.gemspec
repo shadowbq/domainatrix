@@ -29,6 +29,7 @@ Gem::Specification.new name, Domainatrix::VERSION do |s|
   s.add_dependency("addressable")
   s.add_development_dependency("rspec")
   s.add_development_dependency("rake")
+  s.add_development_dependency("coveralls")
   s.add_development_dependency "bump", "~> 0.3"
 
 end
