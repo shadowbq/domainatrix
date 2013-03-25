@@ -1,18 +1,10 @@
 h1. Domainatrix
 
-!https://badge.fury.io/rb/shadowbq-domainatrix.png!:http://badge.fury.io/rb/shadowbq-domainatrix "!https://codeclimate.com/github/shadowbq/domainatrix.png!":https://codeclimate.com/github/shadowbq/domainatrix "!https://secure.travis-ci.org/shadowbq/domainatrix.png?branch=master!":http://travis-ci.org/shadowbq/domainatrix !https://coveralls.io/repos/shadowbq/domainatrix/badge.png?branch=master(Coverage Status)!:https://coveralls.io/r/shadowbq/domainatrix
-
-PaulDix's Original Repo
-
-"http://github.com/pauldix/domainatrix":http://github.com/pauldix/domainatrix
+!https://badge.fury.io/rb/shadowbq-domainatrix.png!:http://badge.fury.io/rb/shadowbq-domainatrix 
 
 h2. Summary
 
-A cruel mistress that uses the public suffix domain list to dominate URLs by canonicalizing, finding public suffixes, and breaking them into their domain parts.
-
-h2. Description
-
-This simple library can parse a URL into its canonical form. It uses the list of domains from "http://publicsuffix.org":http://publicsuffix.org to break the domain into its public suffix, domain, and subdomain.
+A cruel mistress that uses the public suffix domain list to dominate URLs by canonicalizing, finding public suffixes, and breaking them into their domain parts. This simple library can parse a URL into its canonical form. It uses the list of domains from "http://publicsuffix.org":http://publicsuffix.org to break the domain into its public suffix, domain, and subdomain.
 
 h2. Installation
 
@@ -30,6 +22,16 @@ Installing a gem directly from a git repository is a feature of Bundler, not a f
   gem 'domainatrix', :git => 'git://github.com/shadowbq/domainatrix.git'
 </pre>
 
+
+h2. Code Status
+
+"!https://codeclimate.com/github/shadowbq/domainatrix.png!":https://codeclimate.com/github/shadowbq/domainatrix "!https://secure.travis-ci.org/shadowbq/domainatrix.png?branch=master!":http://travis-ci.org/shadowbq/domainatrix !https://coveralls.io/repos/shadowbq/domainatrix/badge.png?branch=master(Coverage Status)!:https://coveralls.io/r/shadowbq/domainatrix
+
+!https://gemnasium.com/shadowbq/domainatrix.png(Dependency Status)!:https://gemnasium.com/shadowbq/domainatrix
+
+Fork of: _PaulDix's Original Domainatrix Repo_
+
+"http://github.com/pauldix/domainatrix":http://github.com/pauldix/domainatrix
 
 h2. Use
 
@@ -70,13 +72,13 @@ urls = Domainatrix.scan("wikipedia (http://en.wikipedia.org/wiki/Popular_culture
 urls # => ["http://en.wikipedia.org/wiki/Popular_culture"]
 </pre>
 
-h2. ALTERNATIVES
+h2. Alternatives
 
-publicsuffix-ruby gem is well supported.
+The _publicsuffix-ruby_ gem is well supported, and also contains the publicsuffix.org dat file.
 
 "https://github.com/weppos/publicsuffix-ruby":https://github.com/weppos/publicsuffix-ruby
 
-h2. LICENSE
+h2. License
 
 (The MIT License)
 
